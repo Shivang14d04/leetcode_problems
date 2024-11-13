@@ -1,7 +1,7 @@
 import java.util.*;
 class KthMissingPositiveNumber{
      public static void main(String[] args) {
-         int arr[] = {1,2,3,4};
+         int arr[] = {2};
          Scanner inp = new Scanner(System.in);
          int k = inp.nextInt();
           int answer =kthpostivenumber(arr,k);
@@ -10,22 +10,19 @@ class KthMissingPositiveNumber{
 
      }
      public  static  int kthpostivenumber(int arr[] , int k){
-         int sum = 1;
-         int missingCount = 0;
-         int index = 0;
-         while(missingCount<k){
-            if(index<arr.length && sum  == arr[index]){
-                index++;
+        int s = 0;
+        int e = arr.length-1;
+        while(s<=e){
+            int mid  = s+(e-s)/2;
+            int missing = arr[mid] - (mid+1);
+            if(missing<k){
+                s = mid +1;
             }
             else{
-                missingCount++;
-                if(missingCount==k){
-                    return sum;
-                }
+                e = mid-1;
             }
-            sum++;
-         }
-         return -1;
+        }
+        return s +k;
 
      }
 
