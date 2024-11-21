@@ -9,7 +9,7 @@ class FairCandySwap{
 
     }
     public static int [] answer(int [] aliceSizes , int [] bobSizes){
-              int sum1 =0;
+      int sum1 =0;
       int sum2 = 0;
       for(int candies : aliceSizes) sum1 += candies;
       for(int candies : bobSizes) sum2 +=candies;

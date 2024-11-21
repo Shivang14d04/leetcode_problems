@@ -1,4 +1,4 @@
-class CheckIfN_and_itsDoubleExits{
+class CheckIfN_and_itsDoubleExists{
     public static void main(String[] args) {
      int [] arr = {10,2,5,3};
      System.out.println(checkIfExist(arr));
