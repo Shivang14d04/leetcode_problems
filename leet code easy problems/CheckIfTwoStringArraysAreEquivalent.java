@@ -1,3 +1,4 @@
+
 public class CheckIfTwoStringArraysAreEquivalent{
     public static void main(String[] args) {
         String [] word1 = {"ab", "c"};
@@ -15,7 +16,9 @@ public class CheckIfTwoStringArraysAreEquivalent{
         }
 
         if(a.toString().equals(b.toString())){
-            return true; }
+            return true;}
+            else{}
+             
         return false;           
     }
     }
