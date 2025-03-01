@@ -1,0 +1,36 @@
+class Solution {
+    public String longestNiceSubstring(String s) {
+        int n = s.length();
+        String longestNice = "";
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                String sub = s.substring(i, j);
+                if (isNice(sub) && sub.length() > longestNice.length()) {
+                    longestNice = sub;
+                }
+            }
+        }
+        return longestNice;
+    }
+
+    public static boolean isNice(String s) {
+        int[] lower = new int[26];
+        int[] upper = new int[26];
+
+        for (char c : s.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                lower[c - 'a'] = 1;
+            } else {
+                upper[c - 'A'] = 1;
+            }
+        }
+
+        for (char c : s.toCharArray()) {
+            if (Character.isLowerCase(c) && upper[c - 'a'] == 0) return false;
+            if (Character.isUpperCase(c) && lower[c - 'A'] == 0) return false;
+        }
+
+        return true;
+    }
+}
