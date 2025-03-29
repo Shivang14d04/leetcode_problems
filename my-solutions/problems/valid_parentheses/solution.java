@@ -1,15 +1,30 @@
-public class Solution {
+class Solution {
     public boolean isValid(String s) {
-        int prevLength;
-        do {
-            prevLength = s.length();
-            s = s.replace("()", "")
-                 .replace("[]", "")
-                 .replace("{}", "");
-        } while (s.length() != prevLength); // Continue until no changes are made
+        Stack<Character> stack  = new Stack<>();
+        for(char ch : s.toCharArray()){
+            if(ch == '(' || ch == '{'  || ch == '['){
+                stack.push(ch);
 
-        return s.isEmpty(); // If fully removed, it's valid
+            }
+            else{
+                if(ch==')'){
+                    if(stack.isEmpty() || stack.pop()!='('){
+                        return false;
+                    }
+                }
+                if(ch=='}'){
+                    if(stack.isEmpty() || stack.pop()!='{'){
+                        return false;
+                    }
+                }
+                if(ch==']'){
+                    if(stack.isEmpty() || stack.pop()!='['){
+                        return false;
+                    }
+                }                                
+            }
+        }
+        return stack.isEmpty();
+        
     }
-
-
 }
