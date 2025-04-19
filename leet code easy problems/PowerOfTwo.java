@@ -6,7 +6,7 @@ public class PowerOfTwo {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int n = input.nextInt();
-        System.out.println(solution1(n));
+        System.out.println(solution3(n));
 
     }
 
@@ -26,6 +26,19 @@ public class PowerOfTwo {
 
         }
         return (n & (n - 1)) == 0;
+    }
+
+    public static boolean solution3(int n) {
+        if (n == 0) {
+            return false;
+        }
+        if (n == 1) {
+            return true;
+        }
+        if (n % 2 != 0) {
+            return false;
+        }
+        return solution3(n / 2);
     }
 
 }
