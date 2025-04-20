@@ -38,4 +38,17 @@ public class PowerOfFour {
         return (logbase4 == (int) logbase4);
 
     }
+
+    public static boolean solution3(int n) {
+        if (n == 1) {
+            return true;
+        }
+        if (n == 0) {
+            return false;
+        }
+        if (n % 4 != 0) {
+            return false;
+        }
+        return solution3(n / 4);
+    }
 }
