@@ -6,7 +6,7 @@ public class HappyNumber {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int n = input.nextInt();
-        System.out.println(solution2(n));
+        System.out.println(solution3(n));
 
     }
 
@@ -44,4 +44,18 @@ public class HappyNumber {
         }
         return n == 1;
     }
+
+    public static boolean solution3(int n) {
+        int slow = n;
+        int fast = n;
+        do {
+            slow = squareSum(slow);
+            fast = squareSum(squareSum(fast));
+        } while (slow != fast);
+        if (slow == 1) {
+            return true;
+        }
+        return false;
+    }
+
 }
