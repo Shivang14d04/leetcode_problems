@@ -1,24 +1,31 @@
 public class RemoveNthNodeFromEndOfList {
-    
-    public int lengthOfList(ListNode head){
-        ListNode current = head;
-        int length = 0;
-        while(current.next != null){
-            current = current.next;
-            length++;
-        }
-        return length;
-    }
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        int length = lengthOfList(head);
-        if(length == 1 && n == 1){return null;}
-        if(length == n){return head.next;}
-        ListNode current = head;
-        for(int i = 1 ; i< length-n;i++){
-            current = current.next;
+        // Handle edge case where list is empty
+        if (head == null) return null;
+        
+        // Create a dummy node to handle edge cases (like removing first node)
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        
+        ListNode first = dummy;
+        ListNode second = dummy;
+        
+        // Advance first pointer by n+1 steps
+        for (int i = 0; i <= n; i++) {
+            first = first.next;
+            // Handle case where n is larger than list length
+            if (i < n && first == null) return head;
         }
-        current.next = current.next.next;
-        return head;
+        
+        // Move both pointers until first reaches the end
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+        
+        // Remove the nth node from end
+        second.next = second.next.next;
+        
+        return dummy.next;
     }
-    
 }
