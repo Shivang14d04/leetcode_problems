@@ -23,7 +23,7 @@ public class BinaryTreeInorderTraversal {
         }
     }
 
-    class Solution {
+    class Solution1 {
 
         public List<Integer> inorderTraversal(TreeNode root) {
             List<Integer> list = new ArrayList<>();
@@ -42,6 +42,28 @@ public class BinaryTreeInorderTraversal {
 
             inorder(node.right, list);
 
+        }
+    }
+
+    class Solution2 {
+
+        public List<Integer> inorderTraversal(TreeNode root) {
+            Stack<TreeNode> stack = new Stack<>();
+            TreeNode current = root;
+            List<Integer> list = new ArrayList<>();
+            if (root == null) {
+                return list;
+            }
+            while (current != null || !stack.isEmpty()) {
+                while (current != null) {
+                    stack.push(current);
+                    current = current.left;
+                }
+                current = stack.pop();
+                list.add(current.val);
+                current = current.right;
+            }
+            return list;
         }
     }
 }
