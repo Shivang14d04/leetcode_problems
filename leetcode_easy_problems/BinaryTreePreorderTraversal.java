@@ -23,7 +23,32 @@ public class BinaryTreePreorderTraversal {
         }
     }
 
-    class Solution {
+    class Solution2 {
+
+        public List<Integer> preorderTraversal(TreeNode root) {
+            Stack<TreeNode> stack = new Stack<>();
+            List<Integer> list = new ArrayList<>();
+            if (root == null) {
+                return list;
+            }
+            stack.push(root);
+
+            while (!stack.isEmpty()) {
+                TreeNode CurrentNode = stack.pop();
+                list.add(CurrentNode.val);
+
+                if (CurrentNode.right != null) {
+                    stack.push(CurrentNode.right);
+                }
+                if (CurrentNode.left != null) {
+                    stack.push(CurrentNode.left);
+                }
+            }
+            return list;
+        }
+    }
+
+    class Solution1 {
 
         public void preorder(TreeNode node, List<Integer> list) {
             if (node == null) {
