@@ -1,4 +1,6 @@
 
+import java.util.*;
+
 public class CousinsInBinaryTree {
 
     public class TreeNode {
@@ -69,4 +71,57 @@ public class CousinsInBinaryTree {
             return level(node.right, x, lev + 1);
         }
     }
+
+    class Solution2 {
+
+        public boolean isCousins(TreeNode root, int x, int y) {
+            if (root == null) {
+                return false;
+            }
+
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(root);
+
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                boolean foundX = false, foundY = false;
+
+                for (int i = 0; i < size; i++) {
+                    TreeNode node = queue.poll();
+
+                    if (node.left != null && node.right != null) {
+                        int l = node.left.val;
+                        int r = node.right.val;
+                        if ((l == x && r == y) || (l == y && r == x)) {
+                            return false;
+                        }
+                    }
+
+                    if (node.val == x) {
+                        foundX = true;
+                    }
+                    if (node.val == y) {
+                        foundY = true;
+                    }
+
+                    if (node.left != null) {
+                        queue.offer(node.left);
+                    }
+                    if (node.right != null) {
+                        queue.offer(node.right);
+                    }
+                }
+
+                if (foundX && foundY) {
+                    return true;
+                }
+                if (foundX || foundY) {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+    }
+
 }
