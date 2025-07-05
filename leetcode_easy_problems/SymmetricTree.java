@@ -53,4 +53,28 @@ public class SymmetricTree {
 
         }
     }
+
+    class Solution2 {
+
+        public boolean isSymmetric(TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+
+            return solution(root.left, root.right);
+        }
+
+        public boolean solution(TreeNode t1, TreeNode t2) {
+            if (t1 == null && t2 == null) {
+                return true;
+            }
+            if (t1 == null || t2 == null) {
+                return false;
+            }
+            if (t1.val != t2.val) {
+                return false;
+            }
+            return solution(t1.left, t2.right) && solution(t1.right, t2.left);
+        }
+    }
 }
