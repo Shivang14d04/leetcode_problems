@@ -34,9 +34,14 @@ public class BinaryTreeRightSideView {
             queue.offer(root);
             while (!queue.isEmpty()) {
                 int levelSize = queue.size();
-                list.add(((LinkedList<TreeNode>) queue).getLast().val);
+
+                // list.add(((LinkedList<TreeNode>) queue).getLast().val);
                 for (int i = 0; i < levelSize; i++) {
                     TreeNode current = queue.poll();
+
+                    if (i == levelSize - 1) {
+                        list.add(current.val);
+                    }
 
                     if (current.left != null) {
                         queue.offer(current.left);
