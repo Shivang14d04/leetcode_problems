@@ -52,4 +52,21 @@ public class InvertBinaryTree {
             return root;
         }
     }
+
+    class Solution2 {
+
+        public TreeNode invertTree(TreeNode root) {
+            if (root == null) {
+                return null;
+            }
+
+            TreeNode left = invertTree(root.left);  // Go deep into left subtree
+            TreeNode right = invertTree(root.right); // Then right subtree
+
+            root.left = right;  // Swap them
+            root.right = left;
+
+            return root;
+        }
+    }
 }
