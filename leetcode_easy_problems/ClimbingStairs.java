@@ -1,12 +1,12 @@
 
-import java.util.Scanner;
+import java.util.*;
 
 public class ClimbingStairs {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int n = input.nextInt();
-        System.out.println(solution(n));
+        System.out.println(climbStairsDP_solution(n));
     }
 
     private static int solution(int n) {
@@ -20,5 +20,26 @@ public class ClimbingStairs {
             prev = temp;
         }
         return current;
+    }
+
+    public static int climbStairsDP_solution(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return helper(n, dp);
+    }
+
+    public static int helper(int n, int[] dp) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n < 0) {
+            return 0;
+        }
+        if (dp[n] != -1) {
+            return dp[n];
+        }
+
+        dp[n] = helper(n - 1, dp) + helper(n - 2, dp);
+        return dp[n];
     }
 }
