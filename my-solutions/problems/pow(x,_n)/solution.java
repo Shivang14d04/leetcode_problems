@@ -1,22 +1,22 @@
 class Solution {
     public double myPow(double x, int n) {
-        long N = n; // to handle Integer.MIN_VALUE case
-        if (N < 0) {
-            x = 1 / x;
-            N = -N;
+        double ans = 1.0;
+        long nn = n;
+        if(nn<0){
+            nn = -1*nn;
         }
-        return fastPow(x, N);
-    }
-
-    public double fastPow(double x, long n) {
-        double result = 1.0;
-        while (n > 0) {
-            if (n % 2 == 1) {
-                result *= x;
+        while(nn>0){
+            if(nn%2==1){
+                ans  = ans*x;
+                nn = nn -1;
             }
-            x *= x;
-            n /= 2;
+            else{
+                x = x*x;
+                nn /=2;
+            }
         }
-        return result;
+        if(n<0){
+        return (double)1.0/ans;}
+        return ans;
     }
 }
