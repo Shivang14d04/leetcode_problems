@@ -1,25 +1,29 @@
 class Solution {
-    static final int MOD = 1_000_000_007;
-
+    int mod = 1_000_000_007;
     public int countGoodNumbers(long n) {
-        long a = modPow(5, (n + 1) / 2, MOD);  
-        long b = modPow(4, n / 2, MOD);        
 
-        return (int) ((a * b) % MOD);          
+        if(n==1)return 5;
+        if(n==2) return 20;
+     long even = n/2;
+     long odd = n -even ;
+
+     long a = helper(even , 4);
+     long b = helper(odd ,5);
+     return (int) ((a*b)%mod);
     }
 
-    private long modPow(long base, long exp, int mod) {
-        long result = 1;
-        base %= mod;
 
-        while (exp > 0) {
-            if ((exp & 1) == 1) {
-                result = (result * base) % mod;
+    public long helper(long n , long y){
+        long result =1;
+        y = y%mod;
+        
+        while(n >0){
+            if(n%2 ==1){
+                result = (result*y)%mod;
             }
-            base = (base * base) % mod;
-            exp >>= 1;
+            y=(y*y)%mod;
+            n =  (n/2);
         }
-
         return result;
     }
 }
