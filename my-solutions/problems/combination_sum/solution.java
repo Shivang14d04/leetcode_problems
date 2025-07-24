@@ -1,25 +1,26 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        ArrayList<Integer> p = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
-        CombinationSum(p, candidates, target, result, 0); // added index to avoid duplicates
+        helper(candidates , target , ans , result , 0 ,0);
         return result;
+
+        
     }
 
-    public void CombinationSum(ArrayList<Integer> p, int[] candidates, int sum, List<List<Integer>> result, int index) {
-        if (sum == 0) {
-            result.add(new ArrayList<>(p)); // Add a copy of current list
+    public void helper(int [] arr ,int target ,List<Integer> ans , List<List<Integer>> result  ,int sum , int index){
+        if(sum == target){
+            result.add(new ArrayList<>(ans));
+            return;
+        }
+        if(sum>target){
             return;
         }
 
-        if (sum < 0) {
-            return;
-        }
-
-        for (int i = index; i < candidates.length; i++) {
-            p.add(candidates[i]);
-            CombinationSum(p, candidates, sum - candidates[i], result, i); // allow reuse
-            p.remove(p.size() - 1); // backtrack
+        for(int i  = index;i<arr.length;i++){
+            ans.add(arr[i]);
+            helper(arr , target , ans , result , sum + arr[i] ,i);
+            ans.remove(ans.size() -1);
         }
     }
 }
