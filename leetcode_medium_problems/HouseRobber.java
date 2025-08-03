@@ -1,0 +1,44 @@
+
+import java.util.Arrays;
+
+public class HouseRobber {
+
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        int[] ans = new int[n];
+        ans[0] = nums[0];
+        ans[1] = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < n; i++) {
+            ans[i] = Math.max(ans[i - 1], nums[i] + ans[i - 2]);
+        }
+        return ans[n - 1];
+    }
+
+    // Memoization approach
+    public int rob2(int[] nums) {
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, -1);
+        return helper(nums, 0, dp);
+
+    }
+
+    public int helper(int[] nums, int index, int[] dp) {
+        if (index >= nums.length) {
+            return 0;
+        }
+
+        if (dp[index] != -1) {
+            return dp[index];
+        }
+
+        int take = nums[index] + helper(nums, index + 2, dp);
+        int skip = helper(nums, index + 1, dp);
+
+        dp[index] = Math.max(take, skip);
+        return dp[index];
+    }
+
+}
