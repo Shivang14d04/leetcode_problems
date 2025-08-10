@@ -48,4 +48,43 @@ public class PartitionEqualSubsetSum {
 
     }
 
+    // Bottom-up approach
+    // Time complexity: O(n * k)
+    // Space complexity: O(n * k)
+    public boolean canPartition2(int[] nums) {
+        int totalSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            totalSum += nums[i];
+        }
+
+        if (totalSum % 2 != 0) {
+            return false;
+        } else {
+            int n = nums.length;
+            int k = totalSum / 2;
+            boolean[][] dp = new boolean[n][k + 1];
+            for (int i = 0; i < nums.length; i++) {
+                dp[i][0] = true;
+            }
+
+            if (nums[0] <= k) {
+                dp[0][nums[0]] = true;
+            }
+
+            for (int i = 1; i < nums.length; i++) {
+                for (int j = 1; j <= k; j++) {
+                    boolean notTake = dp[i - 1][j];
+                    boolean take = false;
+                    if (nums[i] <= j) {
+                        take = dp[i - 1][j - nums[i]];
+                    }
+
+                    dp[i][j] = take || notTake;
+                }
+            }
+            return dp[n - 1][k];
+
+        }
+    }
+
 }
