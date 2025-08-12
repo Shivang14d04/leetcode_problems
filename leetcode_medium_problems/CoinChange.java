@@ -50,7 +50,7 @@ public class CoinChange {
     // Bottom-up approach
     // Time complexity: O(n * amount)
     // Space complexity: O(n * amount)
-    public int coinChange(int[] coins, int amount) {
+    public int coinChange2(int[] coins, int amount) {
         int n = coins.length;
         final int INF = (int) 1e9;
         int[][] dp = new int[n][amount + 1];
