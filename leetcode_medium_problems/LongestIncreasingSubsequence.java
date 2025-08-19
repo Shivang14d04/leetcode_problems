@@ -28,4 +28,25 @@ public class LongestIncreasingSubsequence {
         dp[index][prevIndex+1]  = Math.max(take , notTake);
         return dp[index][prevIndex+1];
     }
+
+    // tabulation
+    public int lengthOfLIS2(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n + 1][n + 1];
+
+        for (int i = n - 1; i >= 0; i--) {
+            for (int prevIndex = i - 1; prevIndex >= -1; prevIndex--) {
+                int notTake = dp[i+1][prevIndex+1];
+                int take = 0;
+                if (prevIndex == -1 || nums[i] > nums[prevIndex]) {
+                    take = 1 + dp[i+1][i+1];
+                }
+
+                dp[i][prevIndex + 1] = Math.max(take, notTake);
+            }
+        }
+        return dp[0][0];
+
+    }
+
 }
