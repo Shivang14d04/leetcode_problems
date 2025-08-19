@@ -48,5 +48,28 @@ public class LongestIncreasingSubsequence {
         return dp[0][0];
 
     }
+    // space optimization
+    public int lengthOfLIS3(int[] nums) {
+        int n = nums.length;
+        int[] prev = new int[n + 1];
+
+
+        for (int i = n - 1; i >= 0; i--) {
+            int [] curr = new int[n+1];
+            for (int prevIndex = i - 1; prevIndex >= -1; prevIndex--) {
+                int notTake = prev[prevIndex+1];
+                int take = 0;
+                if (prevIndex == -1 || nums[i] > nums[prevIndex]) {
+                    take = 1 + prev[i+1];
+                }
+
+                curr[prevIndex + 1] = Math.max(take, notTake);
+            }
+            prev = curr;
+        }
+        return prev[0];
+
+    }
+
 
 }
