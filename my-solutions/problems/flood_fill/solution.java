@@ -1,19 +1,28 @@
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int originalColor = image[sr][sc];
-        if(originalColor!=color){
-            solution(sr , sc , originalColor , color , image);
+        int OriginalColor = image[sr][sc];
+        int n = image.length;
+        int m = image[0].length;
+        if (OriginalColor != color) {
+            int[] rowChange = { -1, 0, 1, 0 };
+            int[] colChange = { 0, -1, 0, 1 };
+            dfs( image, sr, sc, color, OriginalColor, rowChange, colChange,n,m);
         }
         return image;
     }
 
-    public void  solution(int sr , int sc , int originalColor , int newColor , int [][] image){
-        if(sr<0 || sr >= image.length || sc<0 || sc >= image[0].length) return;
-        if(image[sr][sc] != originalColor) return;
-        image[sr][sc] = newColor;
-        solution(sr+1 , sc ,originalColor , newColor , image);
-        solution(sr-1 , sc ,originalColor , newColor , image);
-        solution(sr , sc+1 ,originalColor , newColor , image);
-        solution(sr , sc-1 ,originalColor , newColor , image);
+    public void dfs( int[][] image, int sr, int sc, int color, int OriginalColor, int[] row, int[] col,int n , int m) {
+        image[sr][sc] = color;
+
+        for (int i = 0; i < 4; i++) {
+            int x = sr + row[i];
+            int y = sc + col[i];
+
+            if (x < 0 || y < 0 || x >= n || y >= m || image[x][y] != OriginalColor) {
+                continue;
+            }
+            dfs( image, x, y, color, OriginalColor, row, col,n,m);
+
+        }
     }
 }
