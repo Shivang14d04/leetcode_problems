@@ -19,16 +19,18 @@ class Solution {
             int length = arr[2];
             int x = arr[0];
             int y = arr[1];
-            if(x== n-1 && y==n-1) return dis[x][y]+1;
+            if (x == n - 1 && y == n - 1)
+                return dis[x][y] + 1;
             int[] dx = { -1, -1, 0, 1, 1, 1, 0, -1 };
             int[] dy = { 0, -1, -1, -1, 0, 1, 1, 1 };
             for (int i = 0; i < 8; i++) {
                 int xrow = x + dx[i];
                 int ycol = y + dy[i];
 
-                if(xrow>=0&&ycol <n&& xrow<n&& ycol>=0 && grid[xrow][ycol]==0 && dis[xrow][ycol] > length+1){
-                    dis[xrow][ycol] = length+1;
-                    q.offer(new int[]{xrow,ycol,length+1});
+                if (xrow >= 0 && ycol < n && xrow < n && ycol >= 0 && grid[xrow][ycol] == 0
+                        && dis[xrow][ycol] > length + 1) {
+                    dis[xrow][ycol] = length + 1;
+                    q.offer(new int[] { xrow, ycol, length + 1 });
                 }
 
             }
