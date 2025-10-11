@@ -1,29 +1,24 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        int n = nums1.length;
-        int m = nums2.length;
-        int[] ans = new int[n];
-        
-        Arrays.fill(ans,-1);
-        for(int i = 0;i<n;i++){
-            for(int j  =0;j<m;j++){
-               
-                if(nums1[i]== nums2[j]){
-                    
-                    for(int k =j+1;k<m;k++){
-                        if(nums2[k]>nums2[j]){
-                            ans[i] = nums2[k];
-                            break;
-                        }
-                    }
-                    break;
-                }
-                
-
+        int [] nextg = new int[10001];
+        Stack<Integer> st = new Stack<>();
+        for(int i = nums2.length-1;i>=0;i--){
+            while(!st.isEmpty() && st.peek()<= nums2[i]){
+                st.pop();
             }
-            
+            if(st.isEmpty()){
+                nextg[nums2[i]] = -1;
+            }
+            else{
+                nextg[nums2[i]] = st.peek();
+            }
+            st.push(nums2[i]);
         }
-        return ans;
+
+        for(int i = 0;i< nums1.length;i++){
+            nums1[i] = nextg[nums1[i]];
+        }
+        return nums1;
         
     }
 }
