@@ -3,40 +3,42 @@ class Solution {
         int n = matrix.length;
         int m = matrix[0].length;
         int [] col = new int[m];
-        int maxArea = Integer.MIN_VALUE;
-
+        int MaxArea  = Integer.MIN_VALUE;
         for(int i = 0;i<n;i++){
             for(int j = 0;j<m;j++){
-                if(matrix[i][j] =='1'){
+                if(matrix[i][j] == '1'){
                     col[j]++;
                 }
                 else{
                     col[j] = 0;
                 }
             }
-            int area = largestRectangleArea(col);
-             maxArea = Math.max(area,maxArea);
+            MaxArea = Math.max(MaxArea, helper(col));
+
         }
-        return maxArea;
-        
+        return MaxArea;
     }
-    public  int largestRectangleArea(int [] histo) {
-        Stack < Integer > st = new Stack < > ();
-        int maxA = 0;
-        int n = histo.length;
-        for (int i = 0; i <= n; i++) {
-            while (!st.empty() && (i == n || histo[st.peek()] >= histo[i])) {
-                int height = histo[st.peek()];
+
+    public int helper(int[] col){
+        Stack<Integer> st = new Stack<>();
+        int maxArea = 0;
+        int n = col.length;
+        for(int i = 0;i<=n;i++){
+            while(!st.isEmpty() && (i==n || col[st.peek()]>= col[i])){
+                int height =col[st.peek()];
                 st.pop();
                 int width;
-                if (st.empty())
+                if(st.isEmpty()){
                     width = i;
-                else
-                    width = i - st.peek() - 1;
-                maxA = Math.max(maxA, width * height);
+                }
+                else{
+                    width = i-st.peek()-1;
+                }
+                maxArea = Math.max(maxArea, height*width);
             }
             st.push(i);
         }
-        return maxA;
+        return maxArea;
+
     }
 }
