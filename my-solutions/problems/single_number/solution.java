@@ -1,12 +1,9 @@
 class Solution {
     public int singleNumber(int[] nums) {
-
-        int n  = nums.length;
-        int result = 0;
-        for(int i = 0;i<n;i++){
-            result = result^nums[i];
-        }
-
-        return result;
+       int result = 0;
+       for(int a :nums){
+        result ^=a;
+       } 
+       return result;
     }
 }
