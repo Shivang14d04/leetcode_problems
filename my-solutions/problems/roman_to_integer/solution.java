@@ -1,65 +1,25 @@
 class Solution {
     public int romanToInt(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
         int sum = 0;
-for(int i =0 ; i< s.length();i++){
-            if(s.charAt(i)=='I'){
-            if( i+1<s.length() &&s.charAt(i+1)=='V' ){
-               sum+=4; 
-               i+=1;
-            }
-            else if( i+1<s.length() && s.charAt(i+1)=='X' ){
-                sum+=9;
-                i+=1;
+        for (int i = 0; i < s.length()-1; i++) {
+            if(map.get(s.charAt(i))< map.get(s.charAt(i+1))){
+                sum -= map.get(s.charAt(i));
             }
             else{
-                sum+=1;
+                sum+=map.get(s.charAt(i));
             }
 
         }
-        else if(s.charAt(i)=='V'){
-            sum+=5;
+        sum += map.get(s.charAt(s.length()-1));
+        return sum;
 
-        }
-        else if(s.charAt(i)=='X'){
-             if(i+1<s.length() &&s.charAt(i+1)=='L'){
-               sum+=40; 
-               i+=1;
-            }
-            else if(i+1<s.length() &&s.charAt(i+1)=='C'){
-                sum+=90;
-                i+=1;
-            }
-            else{
-                sum+=10;
-            }
-
-        }
-        else if(s.charAt(i)=='L'){
-            sum+=50;
-
-        }
-        else if(s.charAt(i)=='C'){
-              if(i+1<s.length() && s.charAt(i+1)=='D'){
-               sum+=400; 
-               i+=1;
-            }
-            else if( i+1<s.length() && s.charAt(i+1)=='M'){
-                sum+=900;
-                i+=1;
-            }
-            else{
-                sum+=100;
-            }
-            
-        }        
-        else if(s.charAt(i)=='D'){
-            sum+=500;
-            
-        }  
-        else if(s.charAt(i)=='M'){
-            sum+=1000;
-        } 
-    } 
-    return sum;            
     }
 }
