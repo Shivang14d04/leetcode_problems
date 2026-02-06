@@ -1,23 +1,20 @@
 class Solution {
     public boolean isPalindrome(String s) {
-        char [] arr = s.toCharArray();
-        StringBuilder string = new StringBuilder();
+        int l = 0, r = s.length() - 1;
+        while (l < r) {
+            while (l < r && !isAlpha(s.charAt(l)))
+                l++;
+            while (l < r && !isAlpha(s.charAt(r)))
+                r--;
+            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r)))
+                return false;
+                l++;
+                r--;
+        }
+        return true;
+    }
 
-        for(int i =0;i< arr.length;i++){
-            if((arr[i]>='A' && arr[i]<='Z') || (arr[i]>='0' && arr[i]<='9')){
-                arr[i]= Character.toLowerCase(arr[i]);
-                string.append(arr[i]);
-            }
-            else if(arr[i]<'A' ||(arr[i]>'Z'&& arr[i]<'a')||arr[i]>'z'){
-                continue;
-            }
-            else{
-                string.append(arr[i]);
-            }
-        }
-        if(string.toString().equals(string.reverse().toString())){
-            return true;
-        }
-        return false;
+    public boolean isAlpha(char ch) {
+        return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9');
     }
 }
