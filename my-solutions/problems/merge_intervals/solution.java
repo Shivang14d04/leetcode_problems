@@ -1,25 +1,25 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        int n = intervals.length;
-        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
-        List<List<Integer>> list = new ArrayList<>();
+       if(intervals.length == 1)return intervals;
+       Arrays.sort(intervals, (a,b)-> Integer.compare(a[0], b[0])); 
+       List<int[]> merged =  new ArrayList<>();
+       int [] current = intervals[0];
+       merged.add(current);
+       for(int [] interval : intervals){
+        int nextEnd = interval[1];
+        int nextStart  = interval[0];
+        int currentEnd = current[1];
 
-        for (int i = 0; i < n; i++) {
-            if (list.isEmpty() || intervals[i][0] > list.get(list.size() - 1).get(1)) {
-                list.add(Arrays.asList(intervals[i][0], intervals[i][1]));
-            }
-            list.get(list.size() - 1).set(1, Math.max(intervals[i][1], list.get(list.size() - 1).get(1)));
+        if(currentEnd>= nextStart){
+            current[1] = Math.max(currentEnd, nextEnd);
+        }
+        else{
+            current = interval;
+            merged.add(interval);
+
 
         }
-        int m = list.size();
-        int[][] ans = new int[m][2];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < 2; j++) {
-                ans[i][j] = list.get(i).get(j);
-            }
-        }
-
-        return ans;
-
+       }
+       return merged.toArray(new int[merged.size()][]);
     }
 }
