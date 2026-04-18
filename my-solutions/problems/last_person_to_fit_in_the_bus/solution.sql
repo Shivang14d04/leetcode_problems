@@ -1,0 +1,6 @@
+# Write your MySQL query statement below
+select a.person_name person_name from Queue a
+join Queue b on a.turn >= b.turn
+group by a.turn having sum(b.weight) <= 1000
+order by sum(b.weight) desc
+limit 1
