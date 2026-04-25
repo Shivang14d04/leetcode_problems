@@ -1,30 +1,27 @@
 class Solution {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-     List<List<Integer>> result = new ArrayList<>();
-     List<Integer> ans = new ArrayList<>();
-     Arrays.sort(candidates);
-     helper(candidates , target , ans , result ,0,0)   ;
-     return result;
+        List<List<Integer>> result  = new ArrayList<>();
+        List<Integer> comb = new ArrayList<>();
+        Arrays.sort(candidates);
+        helper(result, comb,candidates,target, 0);
+        return result;
     }
-
-    public void helper(int [] arr , int target ,List<Integer> ans, List<List<Integer>> result , int sum , int index ){
-        if(sum==target){
-            result.add(new ArrayList<>(ans));
+    public void helper(List<List<Integer>> result,List<Integer> comb, int [] nums, int target, int index ){
+        if(target== 0){
+             result.add(new ArrayList<>(comb));
+            return;
+        }
+        if(target < 0 || index > nums.length-1){
             return;
         }
 
-        if(sum>target){
-            return;
-        }
-        for(int i = index;i<arr.length;i++){
-            if(i>index && arr[i] == arr[i-1]){
-                continue;
-            }
-            if(arr[i]>target)break;
-            ans.add(arr[i]);
-            helper(arr , target, ans, result , sum + arr[i] , i+1);
-            ans.remove(ans.size()-1);
-        }
-    }
+        comb.add(nums[index]);
 
+        helper(result,comb,nums,target-nums[index], index+1);
+        comb.remove(comb.size()-1);
+                while(index+1 < nums.length && nums[index+1] == nums[index]){
+            index++;
+        }
+        helper(result,comb,nums,target,index+1);
+    }
 }
