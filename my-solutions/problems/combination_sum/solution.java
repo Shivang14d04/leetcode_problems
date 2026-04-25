@@ -1,26 +1,22 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<Integer> ans = new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
-        helper(candidates , target , ans , result , 0 ,0);
+        List<Integer> comb  = new ArrayList<>();
+        dfs(result, comb, 0 , candidates, target);
         return result;
-
-        
     }
-
-    public void helper(int [] arr ,int target ,List<Integer> ans , List<List<Integer>> result  ,int sum , int index){
-        if(sum == target){
-            result.add(new ArrayList<>(ans));
-            return;
-        }
-        if(sum>target){
+    public void dfs(List<List<Integer>> result, List<Integer> comb , int index, int [] nums, int target){
+        if(target == 0){
+            result.add(new ArrayList<>(comb));
             return;
         }
 
-        for(int i  = index;i<arr.length;i++){
-            ans.add(arr[i]);
-            helper(arr , target , ans , result , sum + arr[i] ,i);
-            ans.remove(ans.size() -1);
+        if(target <0 || index > nums.length -1){
+            return;
         }
+        comb.add(nums[index]);
+        dfs(result,comb,index,nums,target - nums[index]);
+        comb.remove(comb.size()-1);
+        dfs(result,comb,index+1,nums ,target);
     }
 }
