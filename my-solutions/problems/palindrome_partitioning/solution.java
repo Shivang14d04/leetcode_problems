@@ -1,33 +1,35 @@
 class Solution {
     public List<List<String>> partition(String s) {
-        List<String> current = new ArrayList<>();
-        List<List<String>> result = new ArrayList<>();
-        helper(s , 0 , current , result);
-        return result;
-        
+        List<String> list = new ArrayList<>();
+        List<List<String>> ans  = new ArrayList<>();
+        char [] arr = s.toCharArray();
+
+        helper(0,list,ans,s);
+        return ans;
     }
-    public void helper(String s ,  int i, List<String> current , List<List<String>> result){
-        if(i>= s.length()){
-            result.add(new ArrayList<>(current));
+    public void helper(int index, List<String> list, List<List<String>> ans, String s){
+        if(index >= s.length()){
+            ans.add(new ArrayList<>(list));
             return;
         }
-
-        for(int j = i;j<s.length();j++){
-            if(isPalindrome(s,i,j)){
-                current.add(s.substring(i , j+1));
-                helper(s,j+1 , current , result);
-                current.remove(current.size()-1);
+        for(int i = index ;i<s.length();i++){
+            if(isPalindrome(s,index,i)){
+                list.add(s.substring(index,i+1));
+                helper(i+1,list,ans,s);
+                list.remove(list.size()-1);
             }
         }
+ 
     }
-    public boolean isPalindrome(String s , int start , int end){
-        while(start<end){
-            if(s.charAt(start) != s.charAt(end)){
+    public boolean isPalindrome(String sb, int i , int j){
+         while(i<j){
+            if(sb.charAt(i) != sb.charAt(j)){
                 return false;
             }
-            start++;
-            end--;
+            i++;
+            j--;
         }
         return true;
-    }
+
+    } 
 }
