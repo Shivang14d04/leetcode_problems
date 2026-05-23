@@ -1,26 +1,21 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
+        List<Integer> list = new ArrayList<>();
         int n = nums.length;
-        List<List<Integer>>  ans = new ArrayList<>();
-        List<Integer> curr = new ArrayList<>();
-        boolean[] mark = new boolean[n];
-        helper(ans,curr,mark,nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(nums,list,ans);
         return ans;
     }
-    public void helper(List<List<Integer>>  ans,List<Integer> curr,boolean[] mark, int [] nums){
-        if(curr.size()==nums.length){
-            ans.add(new ArrayList<>(curr));
-            return ;
+    public void helper(int [] nums,List<Integer> list,List<List<Integer>> ans){
+        if(list.size()== nums.length){
+            ans.add(new ArrayList<>(list));
+            return;
         }
-
         for(int i = 0;i<nums.length;i++){
-            if(mark[i]) continue;
-            curr.add(nums[i]);
-            mark[i] = true;
-            helper(ans,curr,mark,nums);
-
-            curr.remove(curr.size()-1);
-            mark[i]=false;
+            if(list.contains(nums[i]))continue;
+            list.add(nums[i]);
+            helper(nums,list,ans);
+            list.remove(list.size()-1);
         }
     }
 }
