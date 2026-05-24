@@ -1,33 +1,28 @@
 class Solution {
     public boolean exist(char[][] board, String word) {
-        int n  = board.length;
-        int m = board[0].length;
-        boolean[][] visited = new boolean[n][m];
-        
-        for(int i  = 0;i<n;i++){
-            for(int j = 0;j<m;j++){
-                if(helper( board , word ,0,i,j,visited)) return true;
+        int row = board.length;
+        int col = board[0].length;
+        boolean[][] vis  = new boolean[row][col];
+        for(int i =0;i<row;i++){
+            for(int j =0;j<col;j++){
+                if(helper(board,i,j,word,vis,0)){
+                    return true;
+                }
             }
         }
-      return false;
-        
+        return false;
+
     }
-    public boolean helper(char[][] board , String word , int index , int i , int j, boolean[][] visited){
-        if(index == word.length()){
+    public boolean helper(char[][] board,int r , int c, String word, boolean[][] vis, int i){
+        if(i== word.length()){
             return true;
         }
-        if(i <0 ||  i>=board.length ||j< 0 || j>= board[0].length || visited[i][j] || board[i][j] != word.charAt(index)){
+        if(r<0 || c<0 || r>vis.length-1 || c> vis[0].length-1 ||word.charAt(i)!=board[r][c] || vis[r][c]==true){
             return false;
         }
-
-        visited[i][j] = true;
-
-      Boolean found =   helper( board , word , index+1 , i+1 ,j , visited )||
-        helper( board , word , index+1 , i-1 ,j, visited )||
-        helper( board , word , index+1 , i ,j +1, visited)||
-        helper( board , word , index+1 , i ,j-1 , visited);
-
-        visited[i][j] = false;
-        return found;
+        vis[r][c] = true;
+        boolean ans =  helper(board,r+1,c,word,vis,i+1)||helper(board,r,c+1,word,vis,i+1)||helper(board,r-1,c,word,vis,i+1)||helper(board,r,c-1,word,vis,i+1);
+        vis[r][c] = false;
+        return ans;
     }
 }
