@@ -1,50 +1,48 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
-        if(grid.length==0)return 0;
-        int row = grid.length;
-        int col = grid[0].length;
+        int n = grid.length;
+        int m = grid[0].length;
         int freshOranges = 0;
-        
-        int minutes=0;
-
-        int[][] visited = grid;
+        int [][] vis = grid;
         Queue<int[]> q = new LinkedList<>();
-
-        for(int i = 0;i<row;i++){
-            for(int j = 0;j<col;j++){
-                if(visited[i][j] == 2){
-                    q.offer(new int[]{i,j});
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 2) {
+                    q.offer(new int[] { i, j });
                 }
-                if(visited[i][j] ==1){
+                if (grid[i][j] == 1) {
                     freshOranges++;
                 }
             }
         }
-        int [] rowDirection = {0,1,-1,0};
-        int [] colDirection ={1,0,0,-1};
+        int time = 0;
 
-        while(!q.isEmpty()){
+        while (freshOranges>0 &&!q.isEmpty()) {
             int size = q.size();
-           
-            for(int i =0;i<size;i++){
-                int[] rotten = q.poll();
-                for(int j = 0;j<4;j++){
-                    int x = rotten[0] +rowDirection[j];
-                    int y = rotten[1] + colDirection[j];
 
-                    if(x<0 || y<0 || x >=row || y>=col || visited[x][y] !=1){
+            for (int j = 0; j < size; j++) {
+                int r = q.peek()[0];
+                int c = q.peek()[1];
+                q.remove();
+                int[] dx = { -1, 0, 1, 0 };
+                int[] dy = { 0, -1, 0, 1 };
+                for (int i = 0; i < 4; i++) {
+                    int row = r + dx[i];
+                    int col = c + dy[i];
+
+                    if (row > n - 1 || col > m - 1 || row < 0 || col < 0 ||vis[row][col] != 1) {
                         continue;
                     }
-                    visited[x][y] =2;
-                    q.offer(new int[]{x,y});
+                    q.offer(new int[] { row, col });
+                    vis[row][col] = 2;
                     freshOranges--;
+
                 }
             }
-            if(!q.isEmpty()){
-                minutes++;
-            }
+            time++;
+
+
         }
-        return freshOranges == 0 ? minutes:-1;
-        
+        return freshOranges !=0 ? -1: time;
     }
 }
