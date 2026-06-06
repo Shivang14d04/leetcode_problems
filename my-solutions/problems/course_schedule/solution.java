@@ -1,46 +1,32 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        int V = numCourses;
-        
-        for (int i = 0; i < V; i++) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
             adj.add(new ArrayList<>());
         }
-
-        // build graph (b -> a, since b must come before a)
-        for (int i = 0; i < prerequisites.length; i++) {
-            int a = prerequisites[i][0];
-            int b = prerequisites[i][1];
-            adj.get(b).add(a);
+         int[] indegree = new int[numCourses];
+        for (int[] pre : prerequisites) {
+            indegree[pre[1]]++;
+            adj.get(pre[0]).add(pre[1]);
         }
 
-        int[] inDegree = new int[V];
-        for (int i = 0; i < V; i++) {
-            for (int it : adj.get(i)) {
-                inDegree[it]++;
+        Queue<Integer> q  = new LinkedList<>();
+        for(int i =0;i<numCourses;i++){
+            if(indegree[i]==0){
+                q.offer(i);
             }
         }
-
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < V; i++) {
-            if (inDegree[i] == 0) {
-                q.add(i);
-            }
-        }
-
-        ArrayList<Integer> ans = new ArrayList<>();
-        while (!q.isEmpty()) {
+        int count = 0;
+        while(!q.isEmpty()){
             int node = q.poll();
-            ans.add(node);
-
-            for (int it : adj.get(node)) {
-                inDegree[it]--;
-                if (inDegree[it] == 0) {
-                    q.add(it);
+            count++;
+            for(int it: adj.get(node)){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    q.offer(it);
                 }
             }
         }
-
-        return ans.size() == V; // if all courses covered, schedule is possible
+        return count == numCourses;
     }
 }
