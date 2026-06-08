@@ -1,42 +1,48 @@
 class Solution {
     public int networkDelayTime(int[][] times, int n, int k) {
-        int l = times.length;
         ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
-        for(int i =0;i<n;i++){
+        for (int i = 0; i <= n; i++) {
             adj.add(new ArrayList<>());
         }
-        for(int i = 0;i<l;i++){
+
+        for (int i = 0; i < times.length; i++) {
             int u = times[i][0];
             int v = times[i][1];
-            int time = times[i][2];
-            adj.get(u-1).add(new int[]{v-1,time});
-        }
-        int [] dis = new int[n];
-        Arrays.fill(dis,(int)1e9);
-        dis[k-1] =0;
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[0]-b[0]);
-        pq.offer(new int[]{0,k-1});
-        while(!pq.isEmpty()){
-            int[] arr = pq.poll();
-            int node = arr[1];
-            int weight = arr[0];
+            int w = times[i][2];
+            adj.get(u).add(new int[] { v, w });
 
-            for(int[] it: adj.get(node)){
-                int nextNode = it[0];
-                int timeTaken = it[1];
-                if(dis[nextNode] >weight + timeTaken){
-                    dis[nextNode] = weight+ timeTaken;
-                    pq.offer(new int[]{dis[nextNode],nextNode});
+        }
+
+        int[] dis = new int[n + 1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[k] = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        pq.add(new int[] { k, 0 });
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int node = curr[0];
+            int weight = curr[1];
+            if (weight > dis[node])
+                continue;
+            for (int[] a : adj.get(node)) {
+                int next = a[0];
+                int wt = a[1];
+                if (dis[node] + wt < dis[next]) {
+                    dis[next] = dis[node] + wt;
+                    pq.add(new int[] { next, dis[next] });
                 }
             }
+        }
 
-        }
         int ans = 0;
-        for(int i = 0;i<n;i++){
-            if(dis[i]==(int)1e9) return -1;
-            ans = Math.max(dis[i],ans);
+
+        for (int i = 1; i <= n; i++) {
+            if (dis[i] == Integer.MAX_VALUE)
+                return -1;
+            ans = Math.max(ans, dis[i]);
         }
+
         return ans;
-        
     }
 }
