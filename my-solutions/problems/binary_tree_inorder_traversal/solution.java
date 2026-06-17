@@ -16,6 +16,7 @@
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
+        if(root==null)return ans;
         TreeNode curr = root;
         while(curr != null){
             if(curr.left == null){
@@ -23,13 +24,14 @@ class Solution {
                 curr = curr.right;
             }
             else{
-                TreeNode prev  = curr.left;
-                while(prev.right != null && prev.right != curr){
+                TreeNode prev = curr.left;
+                while( prev.right != null && prev.right != curr){
                     prev = prev.right;
                 }
+
                 if(prev.right == null){
                     prev.right = curr;
-                    curr = curr.left;
+                    curr  = curr.left;
                 }
                 else{
                     prev.right = null;
@@ -39,5 +41,6 @@ class Solution {
             }
         }
         return ans;
+
     }
 }
