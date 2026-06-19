@@ -15,27 +15,13 @@
  */
 class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        if(p==null && q== null)return true;
-       Queue<TreeNode> one = new LinkedList<>();
-       Queue<TreeNode> two = new LinkedList<>();
-       one.offer(p);
-       two.offer(q);
+       return helper(p,q);
+    }
+    public boolean helper(TreeNode p , TreeNode q){
+        if(p==null && q==null) return true;
+        if((p==null && q!=null) || (p!=null && q==null) || p.val != q.val) return false;
+       return  helper(p.left,q.left) &&
+        helper(p.right, q.right);
 
-       while(!one.isEmpty() && !two.isEmpty()){
-        int size  = one.size();
-        for(int i  =0;i<size;i++){
-            TreeNode temp = one.poll();
-            TreeNode temp2 = two.poll();
-
-            if(temp==null && temp2 == null) continue;
-            if(temp == null || temp2 == null || temp.val != temp2.val)return false;
-
-             one.offer(temp.left);
-            one.offer(temp.right);
-            two.offer(temp2.left);
-            two.offer(temp2.right);
-        }
-       }
-       return true; 
     }
 }
