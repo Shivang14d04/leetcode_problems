@@ -15,45 +15,50 @@
  */
 class Solution {
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-     TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> nodes = new TreeMap<>();
-     Queue<Pair> q = new LinkedList<>();
-     q.offer(new Pair(root,0,0));
-     while(!q.isEmpty()){
-        Pair temp = q.poll();
-        TreeNode node  = temp.node;
-        int x = temp.vertical;
-        int y = temp.level;
-        nodes.putIfAbsent(x, new TreeMap<>());
-        nodes.get(x).putIfAbsent(y, new PriorityQueue<>());
-        nodes.get(x).get(y).offer(node.val);
-        if(node.left != null){
-            q.offer(new Pair(node.left, x-1, y+1));
-        }
-        if(node.right != null){
-            q.offer(new Pair(node.right, x+1, y+1));
-        }
-     }  
-     List<List<Integer>> result = new ArrayList<>();
-     for(TreeMap<Integer, PriorityQueue<Integer>> values: nodes.values()){
-        List<Integer> col = new ArrayList<>();
-        for(PriorityQueue<Integer> ys: values.values()){
-            while(!ys.isEmpty()){
-                col.add(ys.poll());
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null)
+            return ans;
+        TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root, 0, 0));
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            TreeNode node = p.node;
+            int v = p.vertical;
+            int l = p.level;
+            map.putIfAbsent(v, new TreeMap<>());
+            map.get(v).putIfAbsent(l, new PriorityQueue<>());
+            map.get(v).get(l).offer(node.val);
+            if (node.left != null) {
+                q.offer(new Pair(node.left, v - 1, l + 1));
+            }
+            if (node.right != null) {
+                q.offer(new Pair(node.right, v + 1, l + 1));
             }
         }
-        result.add(col);
+        for (Map.Entry<Integer, TreeMap<Integer, PriorityQueue<Integer>>> entry : map.entrySet()) {
+            List<Integer> col = new ArrayList<>();
 
-     } 
-     return result;
+            for (PriorityQueue<Integer> pq : entry.getValue().values()) {
+                while (!pq.isEmpty()) {
+                    col.add(pq.poll());
+                }
+            }
+
+            ans.add(col);
+        }
+        return ans;
     }
 }
-class Pair{
+
+class Pair {
     TreeNode node;
     int vertical;
     int level;
-    Pair(TreeNode n , int v , int l){
-        node = n;
-        vertical = v;
-        level = l;
+
+    Pair(TreeNode n, int v, int l) {
+        this.node = n;
+        this.vertical = v;
+        this.level = l;
     }
 }
