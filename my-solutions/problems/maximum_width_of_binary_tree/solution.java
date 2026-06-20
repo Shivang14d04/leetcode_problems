@@ -15,51 +15,53 @@
  */
 class Solution {
     public int widthOfBinaryTree(TreeNode root) {
-        if(root==null) return 0;
+        if (root == null)
+            return 0;
         Queue<Pair> q = new LinkedList<>();
-        q.offer(new Pair(root,0));
-        int maxWidth = 0;
-        while(!q.isEmpty()){
+        q.offer(new Pair(root, 0));
+        int width = 0;
+        while (!q.isEmpty()) {
             int size = q.size();
+            int first = 0;
+            int last = 0;
             int minIndex = q.peek().getValue();
-            int first = 0; int last = 0;
-            for(int i =0;i<size;i++){
+            for (int i = 0; i < size; i++) {
                 Pair p = q.poll();
                 TreeNode node = p.getKey();
-                int currentIndex = p.getValue() - minIndex;
-
-                if(i==0){
-                    first = currentIndex;
-                } 
-                if(i==size-1){
-                    last = currentIndex;
+                int currIndex = p.getValue() - minIndex;
+                if (i == 0)
+                    first = currIndex;
+                if (i == size - 1)
+                    last = currIndex;
+                if (node.left != null) {
+                    q.offer(new Pair(node.left, currIndex * 2 + 1));
                 }
+                if (node.right != null) {
+                    q.offer(new Pair(node.right, currIndex * 2 + 2));
 
-                if(node.left != null){
-                    q.add(new Pair(node.left, currentIndex*2 + 1));
-                }
-                if(node.right != null){
-                    q.add(new Pair(node.right, currentIndex*2 +2));
                 }
             }
-            maxWidth  = Math.max(maxWidth, last-first+1);
-        }
-        return maxWidth;
+            width = Math.max(width, last - first + 1);
 
+        }
+        return width;
     }
 }
 
-public class Pair{
+class Pair {
     TreeNode node;
     int index;
-    Pair(TreeNode n, int i){
-        node = n;
-        index = i;
+
+    Pair(TreeNode _node, int _index) {
+        this.node = _node;
+        this.index = _index;
     }
-    TreeNode getKey(){
+
+    TreeNode getKey() {
         return node;
     }
-    int getValue(){
+
+    int getValue() {
         return index;
     }
 }
