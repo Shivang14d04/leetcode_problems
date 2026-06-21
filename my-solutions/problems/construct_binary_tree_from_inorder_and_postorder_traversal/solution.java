@@ -15,23 +15,21 @@
  */
 class Solution {
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i = 0;i<inorder.length;i++){
-            map.put(inorder[i],i);
-
-        }
-        return build(inorder,0,inorder.length-1, postorder, 0, postorder.length-1,map );
+        
+       HashMap<Integer, Integer> map = new HashMap<>();
+       for(int i=0;i<inorder.length;i++){
+        map.put(inorder[i],i);
+       } 
+       return helper(postorder, 0, postorder.length -1, inorder , 0 , inorder.length-1,map);
     }
-    public TreeNode build(int[] inorder, int inStart, int inEnd, int[] postorder, int postStart, int postEnd,HashMap<Integer, Integer> map){
-        if(inStart> inEnd || postStart > postEnd){
-            return null;
-        }
+    public  TreeNode helper(int[] postorder, int preStart, int preEnd , int[] inorder, int inStart, int inEnd, HashMap<Integer,Integer> map){
+        if(preStart > preEnd || inStart > inEnd)return null;
+        TreeNode root = new TreeNode(postorder[preEnd]);
+        int rootIndex = map.get(root.val);
+        int leftPart = rootIndex - inStart ;
+        root.left = helper(postorder,preStart, preStart+leftPart-1, inorder, inStart, rootIndex -1, map);
+        root.right  = helper(postorder,preStart+leftPart , preEnd-1, inorder, rootIndex +1 , inEnd, map);        
 
-        TreeNode root = new TreeNode(postorder[postEnd]);
-        int inRoot = map.get(root.val);
-        int numsleft = inRoot - inStart;
-        root.left = build(inorder, inStart , inRoot -1,postorder, postStart, postStart + numsleft-1,map);
-        root.right = build(inorder, inRoot +1, inEnd,postorder, postStart+numsleft, postEnd-1,map);
-    return root;
+        return root;
     }
 }
