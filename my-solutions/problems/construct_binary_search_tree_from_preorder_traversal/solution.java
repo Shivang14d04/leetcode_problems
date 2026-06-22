@@ -14,16 +14,16 @@
  * }
  */
 class Solution {
-    private int i = 0;
+    private int i;
+
     public TreeNode bstFromPreorder(int[] preorder) {
-      return  helper(preorder,Integer.MAX_VALUE);
+       return helper(preorder,Integer.MAX_VALUE);
     }
-    public TreeNode helper(int[] preorder, int bound){
-        if(i == preorder.length ||  preorder[i] > bound)return null;
+    public TreeNode helper(int [] preorder, int bound){
+        if(i > preorder.length - 1 || preorder[i]>bound) return null;
         TreeNode root = new TreeNode(preorder[i++]);
         root.left = helper(preorder, root.val);
         root.right = helper(preorder,bound);
         return root;
     }
-
 }
