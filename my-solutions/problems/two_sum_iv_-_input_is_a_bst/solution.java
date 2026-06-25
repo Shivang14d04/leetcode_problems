@@ -13,49 +13,54 @@
  *     }
  * }
  */
- class BSTiterator{
-    private Stack<TreeNode> stack;
+class BstIterator{
+    Stack<TreeNode> stack;
     private boolean reverse;
-    BSTiterator(TreeNode root, boolean isReverse){
+    public BstIterator(TreeNode node, boolean reverse){
         stack = new Stack<>();
-        reverse = isReverse;
-        addAll(root);
+       this.reverse = reverse;
+        pushAll(node);
     }
-    int next(){
-        TreeNode temp = stack.pop();
+
+    public int next(){
+        TreeNode curr = stack.pop();
         if(reverse){
-            addAll(temp.right);
+            pushAll(curr.left);
         }
         else{
-            addAll(temp.left);
+            pushAll(curr.right);
         }
-        return temp.val;
+        return curr.val;
     }
-    public void addAll(TreeNode node){
-        while(node != null){
-            stack.push(node);
-            if(reverse){
-                node = node.left;
+
+    public void pushAll(TreeNode node){
+            while(node!=null){
+                stack.push(node);
+                if(reverse){
+                    node = node.right;
+                }
+                else{
+                    node = node.left;
+                }
             }
-            else{
-                node = node.right;
-            }
-        }
     }
- }
+}
 class Solution {
     public boolean findTarget(TreeNode root, int k) {
-        BSTiterator l = new BSTiterator(root,true);
-        BSTiterator r = new BSTiterator(root,false);
-        int i = l.next();
-        int j = r.next();
-            while (i < j) {
-            if (i + j == k) return true;
-            else if (i + j < k) i = l.next();
-            else j = r.next();
+        BstIterator l = new BstIterator(root, false);
+        BstIterator r = new BstIterator(root, true);
+        int left = l.next();
+        int right = r.next();
+        while(left<right){
+            if(left+right ==k)return true;
+            else if(left
+            +right < k){
+                left = l.next();
+            }
+            else{
+                right = r.next();
+            }
         }
-
         return false;
-
     }
 }
