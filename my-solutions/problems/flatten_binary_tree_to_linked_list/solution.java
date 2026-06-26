@@ -18,15 +18,16 @@ class Solution {
         TreeNode curr = root;
         while(curr!=null){
             if(curr.left != null){
-                TreeNode temp = curr.left;
-                while(temp.right !=null){
-                    temp = temp.right;
+                TreeNode temp2 = curr.left;
+                while(temp2.right!=null){
+                    temp2 = temp2.right;
                 }
-                temp.right = curr.right;
+                temp2.right = curr.right;
                 curr.right = curr.left;
                 curr.left = null;
+
             }
-            curr = curr.right;
+            curr=curr.right;
         }
     }
 }
