@@ -1,31 +1,32 @@
 class Solution {
     public int minEatingSpeed(int[] piles, int h) {
-       int s = 1;
-       int ans =1;
-       int n = piles.length;
-       int e = 0;
-       for(int pile : piles){
-        e = Math.max(pile,e);
-       }
-
-       while(s<=e){
-        int mid = s + (e - s)/2;
-        if(findK(mid,piles,h)){
+       int max = 0;
+       for(int i =0;i<piles.length;i++){
+        max = Math.max(piles[i],max);
+       } 
+       int start  = 1, end = max;
+       int ans = 0;
+       while(start<=end){
+        int mid = start +(end-start)/2;
+        if(canEat(mid,h,piles)){
             ans = mid;
-            e = mid-1;
+            end = mid -1;
         }
-        else{
-            s = mid+1;
+        else if( !canEat(mid,h,piles)){
+            start = mid +1;
         }
        }
        return ans;
     }
 
-    public boolean findK(int k, int[]nums , int h){
-        for(int i = 0;i<nums.length;i++){
-            h -= (nums[i]+k-1)/k;
+    public boolean canEat(int k, int h, int []piles){
+        long time= 0;
+        for(int i =0;i<piles.length;i++){
+            time += ((long) piles[i] + k - 1) / k; 
+                        if(time > h)return false;
+
         }
-        if(h>=0)return true;
-        else return false;
+        return true;
+
     }
 }
