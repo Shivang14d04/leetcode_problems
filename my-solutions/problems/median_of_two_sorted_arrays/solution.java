@@ -1,37 +1,34 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int a = nums1.length;
-        int b = nums2.length;
-        if (a > b)
-          return   findMedianSortedArrays(nums2, nums1);
-        int start = 0;
-        int end = a;
-        while (start <= end) {
-            int mid1 = start + ((end - start) >> 1);
-            int mid2 = ((a + b + 1) >> 1) - mid1;
-            int l1 = (mid1 == 0) ? Integer.MIN_VALUE : nums1[mid1 - 1];
-            int l2 = (mid2 == 0) ? Integer.MIN_VALUE : nums2[mid2 - 1];
-            int r1 = (mid1 == a) ? Integer.MAX_VALUE : nums1[mid1];
+        int n1 = nums1.length, n2 = nums2.length;
+        if(n1>n2){
+            return findMedianSortedArrays(nums2,nums1);
+        }
+        int total = n1+n2;
+        int left = (total+1)/2;
+        int low = 0, high = n1;
+        while(low <= high){
+            int i = (low+high)/2;
+            int j = left - i;
 
-            int r2 = (mid2 == b) ? Integer.MAX_VALUE : nums2[mid2];
-
-            if(l1<=r2 && l2<=r1){
-                if((a+b)%2==0){
-                    return (Math.max(l1,l2) + Math.min(r1,r2))/2.0;
+            int Aleft = i>0 ? nums1[i-1] :Integer.MIN_VALUE;
+            int Aright = i<n1 ? nums1[i] :Integer.MAX_VALUE;
+            int Bleft = j>0 ? nums2[j-1]:Integer.MIN_VALUE;
+            int Bright = j<n2 ? nums2[j] :Integer.MAX_VALUE;
+            if(Aleft <= Bright && Bleft <= Aright){
+                if(total%2 ==0){
+                    return (Math.max(Aleft, Bleft) + Math.min(Aright,Bright))/2.0;
                 }
                 else{
-                    return Math.max(l1,l2);
+                    return Math.max(Aleft,Bleft);
                 }
-
             }
-            else if(l1>r2){
-                end = mid1 -1;
+             else if (Aleft > Bright) {
+                high = i - 1;
+            } else {
+                low = i + 1;
             }
-            else{
-                start = mid1+1;
-            }
-
         }
-        return 0.0;
+        return -1;
     }
 }
