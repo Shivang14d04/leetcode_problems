@@ -1,32 +1,28 @@
 class Solution {
     public int rob(int[] nums) {
-        if(nums.length == 1) return nums[0];
-        int n = nums.length;
-        return Math.max(helper(nums,0,n-2) , helper(nums,1,n-1));
+        int n  = nums.length;
+        if(n==0)return 0;
+        if(n==1)return nums[0];
+
+        ArrayList<Integer> temp1 = new ArrayList<>();
+        ArrayList<Integer> temp2 = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            if(i!=0) temp1.add(nums[i]);
+            if(i!=n-1)temp2.add(nums[i]);
+        }
+        return Math.max(helper(temp1), helper(temp2));
         
+
     }
-    public int helper(int[] nums ,int start , int end){
-        int prev = 0;
-        int prev2 = 0;
-       
-       
-
-        for(int i = start ;i<=end;i++){
-            int pick = nums[i];
-            
-                 pick = pick + prev2;
-            
-
-            int skip = prev;
-           int current = Math.max(pick,skip);
-           prev2 = prev;
-           prev = current;
-
+    public int helper(ArrayList<Integer> nums){
+        int prev1= nums.get(0), prev2 = 0;
+        int n  = nums.size();
+        for(int i=1;i<n;i++){
+            int curr = Math.max((nums.get(i)+ prev2), prev1);
+            prev2 = prev1;
+            prev1 = curr;
 
         }
-        return prev;
-        
+        return prev1;
     }
-    
-    
 }
