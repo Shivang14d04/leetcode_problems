@@ -1,20 +1,22 @@
 class Solution {
     public boolean isPalindrome(String s) {
-        int l = 0, r = s.length() - 1;
-        while (l < r) {
-            while (l < r && !isAlpha(s.charAt(l)))
-                l++;
-            while (l < r && !isAlpha(s.charAt(r)))
-                r--;
-            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r)))
-                return false;
-                l++;
-                r--;
+        StringBuilder sb = new StringBuilder();
+        for(int i =0;i<s.length();i++){
+            char ch = s.charAt(i);
+    if ((ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch>= '0' && ch <= '9')) {
+        sb.append(ch);
+    }
+        }
+       String temp = sb.toString().toLowerCase();
+       return helper(temp);
+    }
+    public boolean helper(String s){
+        int i =0, j = s.length()-1;
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j))return false;
+            i++;
+            j--;
         }
         return true;
-    }
-
-    public boolean isAlpha(char ch) {
-        return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9');
     }
 }
