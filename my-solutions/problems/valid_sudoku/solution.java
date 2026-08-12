@@ -1,35 +1,45 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        for(int row = 0; row<9;row++){
-            Set<Character> seen = new HashSet<>();
-            for(int i =0;i<9;i++){
-                if(board[row][i]=='.')continue;
-                if(seen.contains(board[row][i])) return false;
-                seen.add(board[row][i]);
+        for (int i = 0; i < 9; i++) {
+            int[] nums = new int[10];
+            for (int j = 0; j < 9; j++) {
+                char ch = board[i][j];
+                if (ch == '.')
+                    continue;
+                if (nums[ch - '0'] != 0)
+                    return false;
+                nums[ch - '0']++;
             }
         }
-        for(int col = 0; col<9;col++){
-            Set<Character> seen = new HashSet<>();
-            for(int i =0;i<9;i++){
-                if(board[i][col]=='.')continue;
-                if(seen.contains(board[i][col])) return false;
-                seen.add(board[i][col]);
-            }
-        }   
+        for (int i = 0; i < 9; i++) {
+            int[] nums = new int[10];
 
-        for(int sq =0;sq<9;sq++){
-         Set<Character> seen = new HashSet<>();
-         for(int i =0;i<3;i++){
-            for(int j =0;j<3;j++){
-                int row = (sq/3)*3 + i;
-                int col = (sq%3)*3 + j;
-                if(board[row][col]=='.') continue;
-                if(seen.contains(board[row][col])) return false;
-                seen.add(board[row][col]);
+            for (int j = 0; j < 9; j++) {
+                char ch = board[j][i];
+                if (ch == '.')
+                    continue;
+                if (nums[ch - '0'] != 0)
+                    return false;
+                nums[ch - '0']++;
             }
-         }
- 
-        }  
-        return true;   
+        }
+        for (int k = 0; k < 9; k++) {
+            int[] nums = new int[10];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    int row = (k / 3) * 3 + i;
+                    int col = (k % 3) * 3 + j;
+                    char ch = board[row][col];
+                    if (ch == '.')
+                        continue;
+                    if (nums[ch - '0'] != 0)
+                    return false;    
+                    nums[ch-'0']++;
+
+                }
+            }
+        }
+        return true;
+
     }
 }
