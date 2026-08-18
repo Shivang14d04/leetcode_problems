@@ -9,58 +9,38 @@
  * }
  */
 class Solution {
-      public ListNode middleNode(ListNode head) {
-        ListNode s = head;
-        ListNode f = head;
-
-        while (f != null && f.next != null) {
-            s = s.next;
-            f = f.next.next;
+    public void reorderList(ListNode head) {
+        if(head==null || head.next==null)return ;
+        ListNode first = head;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        return s;
+        ListNode second = slow.next;
+        slow.next = null;
+        second = helper(second);
+        while(second!=null){
+            ListNode temp1 = first.next;
+            ListNode temp2 = second.next;
+            first.next  = second;
+            second.next = temp1;
+            first = temp1;
+            second = temp2;
+        }
+
     }
-
-
-
-
-    public ListNode reverseList(ListNode head) {
-        if (head == null) {
-            return head;
-        }
+    public ListNode helper(ListNode head){
         ListNode prev = null;
-        ListNode present = head;
-        ListNode next = present.next;
+        ListNode curr  = head;
+        while(curr!=null){
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev= curr;
+            curr = temp;
 
-        while (present != null) {
-            present.next = prev;
-            prev = present;
-            present = next;
-            if (next != null) {
-                next = next.next;
-            }
         }
         return prev;
-    }
-    public void reorderList(ListNode head) {
-       if(head == null || head.next == null){
-        return ;
-       } 
-        ListNode mid = middleNode(head);
-        ListNode hf = head;
-        ListNode hs = reverseList(mid);
-
-        while(hf != null && hs != null){
-            ListNode temp = hf.next;
-            hf.next = hs;
-            hf = temp;
-
-            temp = hs.next;
-            hs.next = hf;
-            hs = temp;
-        }
-        if(hf != null){
-            hf.next = null;
-        }
-
     }
 }
